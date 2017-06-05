@@ -160,25 +160,15 @@ layer {
 	}
 }
 
-
-
 layer {
-	bottom: "pool1"
 	bottom: "res2a_branch2b"
-	top: "res2a"
-	name: "res2a"
-	type: "Eltwise"
-}
-
-layer {
-	bottom: "res2a"
-	top: "res2a"
+	top: "res2a_branch2b"
 	name: "res2a_relu"
 	type: "ReLU"
 }
 
 layer {
-	bottom: "res2a"
+	bottom: "res2a_branch2b"
 	top: "pool2"
 	name: "pool2"
 	type: "Pooling"
@@ -300,16 +290,8 @@ layer {
 }
 
 layer {
-	bottom: "res2a_branch2c"
 	bottom: "res3a_branch2b"
-	top: "res3a"
-	name: "res3a"
-	type: "Eltwise"
-}
-
-layer {
-	bottom: "res3a"
-	top: "res3a"
+	top: "res3a_branch2b"
 	name: "res3a_relu"
 	type: "ReLU"
 }
@@ -317,7 +299,7 @@ layer {
 
 
 layer {
-	bottom: "res3a"
+	bottom: "res3a_branch2b"
 	top: "pool3"
 	name: "pool3"
 	type: "Pooling"
@@ -435,23 +417,14 @@ layer {
 	}
 }
 
-
 layer {
-	bottom: "res3a_branch2c"
 	bottom: "res4a_branch2b"
-	top: "res4a"
-	name: "res4a"
-	type: "Eltwise"
-}
-
-layer {
-	bottom: "res4a"
-	top: "res4a"
+	top: "res4a_branch2b"
 	name: "res4a_relu"
 	type: "ReLU"
 }
 layer {
-	bottom: "res4a"
+	bottom: "res4a_branch2b"
 	top: "pool4"
 	name: "pool4"
 	type: "Pooling"
@@ -575,18 +548,9 @@ layer {
 }
 
 
-
 layer {
-	bottom: "res4a_branch2c"
 	bottom: "res5a_branch2b"
-	top: "res5a"
-	name: "res5a"
-	type: "Eltwise"
-}
-
-layer {
-	bottom: "res5a"
-	top: "res5a"
+	top: "res5a_branch2b"
 	name: "res5a_relu"
 	type: "ReLU"
 }
@@ -594,7 +558,7 @@ layer {
 
 
 layer {
-	bottom: "res5a"
+	bottom: "res5a_branch2b"
 	top: "pool5"
 	name: "pool5"
 	type: "Pooling"
