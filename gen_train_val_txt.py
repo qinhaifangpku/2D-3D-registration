@@ -1,55 +1,38 @@
+#!/usr/bin/python
+#-*- coding: utf-8 -*-
+# qhf 2017-6-2
+# list all files in the folder
 import sys
 import os
-import numpy as np
-import matplotlib.pyplot as plt
-from PIL import Image
-import h5py
+import re
+import random
 
-IMAGE_SIZE = (200, 200)
-MEAN_VALUE = 0.26526
+with open('train.txt','w') as f_train_txt:
+    img_dir = sys.argv[1]
+    count = 0
+    file_list = []
+    file_list = os.listdir(ing_dir)
+    inst = []
+    for fi in file_list:
+        fi.strip('\n')
+        count  +=  1
+        img_name = os.path.join(img_dir, fi)
+        txt_name = img_name.replace('TrainImage', 'PCAtrain80')
+        txt_name = txt_name.replace('.jpg', '.txt')
+        print(txt_name)
+        print(img_name)
+        param_list = []
+        with open (txt_name, 'r') as params:
+            for num in params:
+                num.strip('\n')
+                param_list.append(num[:10])
+        parameters = "\t".join(param_list)
+        #print(parameters)
+        temp = fi + '\t' + parameters
+        inst.append(temp)
 
-filename = sys.argv[1]
-setname, ext = filename.split('.')
+    random.shuffle(inst)
+    for item in inst:
+        f_train_txt.write('{}\n'.format(item))
 
-with open(filename, 'r') as f:
-    lines = f.readlines()
-
-#np.random.shuffle(lines)
-
-sample_size = len(lines)
-params_size = 80
-imgs = np.zeros((sample_size, 1,) + IMAGE_SIZE, dtype=np.float32)
-freqs = np.zeros((sample_size, params_size), dtype=np.float32)
-
-h5_filename = '{}.h5'.format(setname)
-with h5py.File(h5_filename, 'w') as h:
-    for i, line in enumerate(lines):
-        temp_list= line[:-1].split('\t')
-        #print(len(temp_list))
-        image_name = temp_list[0]
-        params = temp_list[1:]
-        #print(image_name)
-        #print(len(params))
-        im = Image.open(image_name)
-        im = im.convert('L')
-        img = np.fromiter(iter(im.getdata()), np.float32)
-        img.resize(200, 200)
-        #print(img.shape)
-        #MEAN_VALUE = img.mean()
-        #print(MEAN_VALUE)
-        #img = plt.imread(image_name)[:, :, 0].astype(np.float32)
-        img = img.reshape((1, )+img.shape)
-        #MEAN_VALUE = img.mean()
-        img -= MEAN_VALUE
-        imgs[i] = img
-        print(len(params))
-        for ii in range(0, len(params)):
-            #print(ii)
-            freqs[i][ii] = float(params[ii])
-        if (i+1) % 1000 == 0:
-            print('Processed {} images!'.format(i+1))
-    h.create_dataset('data', data=imgs)
-    h.create_dataset('freq', data=freqs)
-
-with open('{}_h5.txt'.format(setname), 'w') as f:
-    f.write(h5_filename)
+    print(count)
