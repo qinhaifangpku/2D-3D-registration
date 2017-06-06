@@ -1,36 +1,36 @@
 name: "2/3D regist"
-input: "data"
-input_dim: 1
-input_dim: 3
-input_dim: 200
-input_dim: 400
+#input: "data"
+#input_dim: 1
+#input_dim: 3
+#input_dim: 200
+#input_dim: 400
 
-#layer {
-#  name: "data"
-#  type: "HDF5Data"
-#  top: "data"
-#  top: "freq"
-#  include {
-#    phase: TRAIN
-#  }
-#  hdf5_data_param {
-#    source: "train_h5.txt"
-#    batch_size: 50
-#  }
-#}
-#layer {
-#  name: "data"
-#  type: "HDF5Data"
-#  top: "data"
-#  top: "freq"
-#  include {
-#    phase: TEST
-#  }
-#  hdf5_data_param {
-#    source: "val_h5.txt"
-#    batch_size: 50
-#  }
-#}
+layer {
+  name: "data"
+  type: "HDF5Data"
+  top: "data"
+  top: "freq"
+  include {
+    phase: TRAIN
+  }
+  hdf5_data_param {
+    source: "train_h5.txt"
+    batch_size: 30
+  }
+}
+layer {
+  name: "data"
+  type: "HDF5Data"
+  top: "data"
+  top: "freq"
+  include {
+    phase: TEST
+  }
+  hdf5_data_param {
+    source: "val_h5.txt"
+    batch_size: 5
+  }
+}
 
 layer {
 	bottom: "data"
@@ -826,10 +826,10 @@ layer {
 }
 
 layer {
-  name: "concat_fc"
+  name: "fc6"
   type: "InnerProduct"
   bottom: "concat_fc"
-  top: "concat_fc"
+  top: "fc6"
   param {
     lr_mult: 1
     decay_mult: 1
@@ -839,7 +839,7 @@ layer {
     decay_mult: 0
   }
   inner_product_param {
-    num_output: 80
+    num_output: 2700
     weight_filler {
       type: "gaussian"
       std: 0.005
@@ -853,7 +853,7 @@ layer {
 layer {
   name: "sigmoid5"
   type: "Sigmoid"
-  bottom: "concat_fc"
+  bottom: "fc6"
   top: "pred"
 }
 layer {

@@ -1,36 +1,36 @@
 name: "2/3D regist"
-input: "data"
-input_dim: 1
-input_dim: 3
-input_dim: 200
-input_dim: 400
+#input: "data"
+#input_dim: 1
+#input_dim: 3
+#input_dim: 200
+#input_dim: 400
 
-#layer {
-#  name: "data"
-#  type: "HDF5Data"
-#  top: "data"
-#  top: "freq"
-#  include {
-#    phase: TRAIN
-#  }
-#  hdf5_data_param {
-#    source: "train_h5.txt"
-#    batch_size: 50
-#  }
-#}
-#layer {
-#  name: "data"
-#  type: "HDF5Data"
-#  top: "data"
-#  top: "freq"
-#  include {
-#    phase: TEST
-#  }
-#  hdf5_data_param {
-#    source: "val_h5.txt"
-#    batch_size: 50
-#  }
-#}
+layer {
+  name: "data"
+  type: "HDF5Data"
+  top: "data"
+  top: "freq"
+  include {
+    phase: TRAIN
+  }
+  hdf5_data_param {
+    source: "train_h5.txt"
+    batch_size: 50
+  }
+}
+layer {
+  name: "data"
+  type: "HDF5Data"
+  top: "data"
+  top: "freq"
+  include {
+    phase: TEST
+  }
+  hdf5_data_param {
+    source: "val_h5.txt"
+    batch_size: 50
+  }
+}
 
 layer {
 	bottom: "data"
