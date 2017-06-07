@@ -1,48 +1,20 @@
-name: "VGG_ILSVRC_16_layers_fc_reduced"
-#input: "data"
-#input_dim: 10
-#input_dim: 3
-#input_dim: 200
-#input_dim: 200
-
-layer {
-name: "data"
-          type:"HDF5Data"
-          top:"data"
-          top:"freq"
-          include{
-phase:TRAIN
-          }
-      hdf5_data_param{
-source:"train_h5.txt"
-           batch_size:50
-      }
-}
-layer{
-name:"data"
-         type:"HDF5Data"
-         top:"data"
-         top:"freq"
-         include{
-phase:TEST
-         }
-     hdf5_data_param{
-source:"val_h5.txt"
-           batch_size: 50
-     }
-}
-
+name: "VGG_ILSVRC_16_layers"
+input: "data"
+input_dim: 10
+input_dim: 3
+input_dim: 224
+input_dim: 224
 layers {
-  bottom: "data"
-  top: "conv1_1"
-  name: "conv1_1"
-  type: CONVOLUTION
-  convolution_param {
-    num_output: 64
-    pad: 1
-    kernel_size: 3
+      bottom: "data"
+                    top: "conv1_1"
+                      name: "conv1_1"
+                        type: CONVOLUTION
+                        convolution_param {
+                                num_output: 64
+                                                    pad: 1
+                                                        kernel_size: 3
                                                           
-  }
+                        }
 
 }
 layers {
@@ -361,13 +333,10 @@ layers {
       bottom: "pool5"
                     top: "fc6"
                       name: "fc6"
-                        type: CONVOLUTION
-                        convolution_param {
-                                num_output: 1024
-                                                    kernel_size: 3
-                                                        dilation: 3
-                                                            pad: 3
-                                                              
+                        type: INNER_PRODUCT
+                        inner_product_param {
+                                num_output: 4096
+                                                  
                         }
 
 }
@@ -393,11 +362,10 @@ layers {
       bottom: "fc6"
                     top: "fc7"
                       name: "fc7"
-                        type: CONVOLUTION
-                        convolution_param {
-                                num_output: 1024
-                                                    kernel_size: 1
-                                                      
+                        type: INNER_PRODUCT
+                        inner_product_param {
+                                num_output: 4096
+                                                  
                         }
 
 }
@@ -423,25 +391,18 @@ layers {
       bottom: "fc7"
                     top: "fc8"
                       name: "fc8"
-                        type: CONVOLUTION
-                        convolution_param {
+                        type: INNER_PRODUCT
+                        inner_product_param {
                                 num_output: 1000
-                                                    kernel_size: 1
-                                                      
+                                                  
                         }
 
 }
 layers {
       bottom: "fc8"
-                    top: "pred"
-                      name: "sigmoid_9"
-                        type: Sigmoid
+                    top: "prob"
+                      name: "prob"
+                        type: SOFTMAX
 
 }
-layer{
-name:"loss"
-         type:"EuclideanLoss"
-         bottom:"pred"
-         bottom:"freq"
-         top:"loss"
-}
+
