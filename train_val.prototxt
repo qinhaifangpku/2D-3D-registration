@@ -839,7 +839,7 @@ layer {
     decay_mult: 0
   }
   inner_product_param {
-    num_output: 2700
+    num_output: 1000
     weight_filler {
       type: "gaussian"
       std: 0.005
@@ -850,12 +850,39 @@ layer {
     }
   }
 }
+
 layer {
-  name: "sigmoid5"
-  type: "Sigmoid"
-  bottom: "fc6"
-  top: "pred"
+    name:"fc7"
+    type: "InnerProduct"
+    bottom:"fc6"
+    top: "pred"
+    param{
+        lr_mult: 1
+        decay_mult: 1
+    }
+    param{
+        lr_mult: 1
+        decay_mult: 0
+    }
+    inner_product_param{
+        num_output: 80
+        weight_filler {
+            type: "gaussian"
+            std: 0.005
+        }
+        bias_filler{
+            type: "constant"
+            value: 0
+        }
+    }
 }
+
+#layer {
+#  name: "sigmoid5"
+#  type: "Sigmoid"
+#  bottom: "fc6"
+#  top: "pred"
+#}
 layer {
   name: "loss"
   type: "EuclideanLoss"
